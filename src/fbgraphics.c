@@ -729,6 +729,10 @@ void fbg_fill(struct _fbg *fbg, unsigned char r, unsigned char g, unsigned char 
 }
 
 void fbg_pixel(struct _fbg *fbg, int x, int y, unsigned char r, unsigned char g, unsigned char b) {
+    int temp = x;
+    x = y;
+    y = temp;
+    x = 319 - x;
     char *pix_pointer = (char *)(fbg->back_buffer + (y * fbg->line_length + x * fbg->components));
 
     *pix_pointer++ = r;
@@ -738,6 +742,10 @@ void fbg_pixel(struct _fbg *fbg, int x, int y, unsigned char r, unsigned char g,
 }
 
 void fbg_pixela(struct _fbg *fbg, int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
+    int temp = x;
+    x = y;
+    y = temp;
+    x = 319 - x;
     char *pix_pointer = (char *)(fbg->back_buffer + (y * fbg->line_length + x * fbg->components));
 
     *pix_pointer = ((a * r + (255 - a) * (*pix_pointer)) >> 8);
@@ -854,6 +862,16 @@ void fbg_polygon(struct _fbg *fbg, int num_vertices, int *vertices, unsigned cha
 }
 
 void fbg_recta(struct _fbg *fbg, int x, int y, int w, int h, unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
+    int temp = x;
+    x = y;
+    y = temp;
+    x = 319 - x;
+
+    temp = w;
+    w = h;
+    h = temp;
+    x -= w - 1;
+
     int xx = 0, yy = 0, w3 = w * fbg->components;
 
     char *pix_pointer = (char *)(fbg->back_buffer + (y * fbg->line_length + x * fbg->components));
@@ -874,6 +892,16 @@ void fbg_recta(struct _fbg *fbg, int x, int y, int w, int h, unsigned char r, un
 }
 
 void fbg_rect(struct _fbg *fbg, int x, int y, int w, int h, unsigned char r, unsigned char g, unsigned char b) {
+    int temp = x;
+    x = y;
+    y = temp;
+    x = 319 - x;
+
+    temp = w;
+    w = h;
+    h = temp;
+    x -= w - 1;
+
     int xx = 0, yy = 0, w3 = w * fbg->components;
 
     char *pix_pointer = (char *)(fbg->back_buffer + (y * fbg->line_length + x * fbg->components));
